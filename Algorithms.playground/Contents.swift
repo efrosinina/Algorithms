@@ -82,6 +82,70 @@ findUnsortedSubarray(array: [1, 4, 2, 3, 2, 6])
 var sortedArray = [0, 0, 1, 1, 3, 4, 4, 4, 5, 5, 8]
 removeDuplicates(input: &sortedArray)
 
+func reverseString(string: inout [Character]) {
+    var last = string.count - 1 // указатели
+    var first = 0
+    while first < last {
+        let temp = string[first]
+        string[first] = string[last]
+        string[last] = temp
+        first += 1
+        last -= 1
+    }
+}
+
+var charArray: [Character] = ["L", "e", "t", "'", "s", " ", "g", "o"]
+reverseString(string: &charArray)
+
+func sameLength(firstString: String, secondString: String) -> Bool {
+    var countDifferent = 0
+    for i in 0...firstString.count - 1 {
+        let indexFirst = firstString.index(firstString.startIndex, offsetBy: i)
+        let indexSecond = firstString.index(secondString.startIndex, offsetBy: i)
+        if firstString[indexFirst] != secondString[indexSecond] {
+            countDifferent += 1
+            if countDifferent > 1 {
+                return false
+            }
+        }
+    }
+    return true
+}
+
+func notSameLength(firstString: String, secondString: String) -> Bool {
+    var countDifferent = 0
+    var i = 0
+    while i < secondString.count {
+        let indexFirst = firstString.index(firstString.startIndex, offsetBy: i + countDifferent)
+        let indexSecond = firstString.index(secondString.startIndex, offsetBy: i)
+        if firstString[indexFirst] == secondString[indexSecond] {
+            i += 1
+        } else {
+            countDifferent += 1
+            if countDifferent > 1 {
+                return false
+            }
+        }
+    }
+    return true
+}
+
+func onlyOneDifference(firstString: String, secondString: String) -> Bool {
+    if firstString.count - secondString.count >= 2 || secondString.count - firstString.count >= 2 {
+        return false
+    } else if firstString.count == secondString.count {
+        return sameLength(firstString: firstString, secondString: secondString)
+    } else if firstString.count > secondString.count {
+        return notSameLength(firstString: firstString, secondString: secondString)
+    } else {
+        notSameLength(firstString: secondString, secondString: firstString)
+    }
+    return true
+}
+
+onlyOneDifference(firstString: "hello", secondString: "llo")
+
+
 //O(N^2)
 func getFirstPair(_ array: [Int]) -> Int? {
     for i in 0..<array.count - 1 {
