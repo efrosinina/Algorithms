@@ -41,6 +41,47 @@ func getSumm(_ array: [Int]) -> Int {
 
 getSumm(myList)
 
+func removeDuplicates(input: inout [Int]) -> Int {
+    var last: Int?
+    var index = 0
+    while index < input.count {
+        if input[index] == last {
+            input.remove(at: index)
+        } else {
+            last = input[index]
+            index += 1
+        }
+    }
+    return input.count
+}
+
+func findUnsortedSubarray(array: [Int]) -> Int {
+    let n = array.count
+    var maxNum: Int = array[0]
+    var end = 0
+    var minNum: Int = array[n - 1]
+    var start = 1
+    for (index, currentItem) in array.enumerated() {
+        maxNum = max(maxNum, currentItem)
+        if currentItem < maxNum {
+            end = index
+        }
+    }
+    
+    for (index, _) in array.enumerated() {
+        minNum = min(minNum, array[n - 1 - index])
+        if array[n - 1 - index] > minNum {
+            start = n - 1 - index
+        }
+    }
+    return end - start + 1
+}
+
+findUnsortedSubarray(array: [1, 4, 2, 3, 2, 6])
+
+var sortedArray = [0, 0, 1, 1, 3, 4, 4, 4, 5, 5, 8]
+removeDuplicates(input: &sortedArray)
+
 //O(N^2)
 func getFirstPair(_ array: [Int]) -> Int? {
     for i in 0..<array.count - 1 {
